@@ -1,3 +1,4 @@
-## [0.0.4] - TODO: Add release date.
+## [0.0.5] - Null safety
 
-* TODO: Describe initial release.
+* Null safety added
+* Packages upgraded
