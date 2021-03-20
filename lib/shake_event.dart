@@ -6,8 +6,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:sensors/sensors.dart';
 
 class ShakeHandler {
-  StreamSubscription<dynamic> _accelerometerStream;
-  StreamSubscription<dynamic> subscription;
+  StreamSubscription<dynamic>? _accelerometerStream;
+  StreamSubscription<dynamic>? subscription;
 
   //INPUT
   var _thresholdController = StreamController<int>();
@@ -15,12 +15,13 @@ class ShakeHandler {
 
   // OUTPUT
   var _shakeDetector = StreamController<bool>();
-  Stream<bool> get _shakeEvent => _shakeDetector.stream.transform(ThrottleStreamTransformer((_) => TimerStream(true, const Duration(seconds: 2))));
+  Stream<bool> get _shakeEvent =>
+      _shakeDetector.stream.transform(ThrottleStreamTransformer(
+          (_) => TimerStream(true, const Duration(seconds: 2))));
 
   double _detectionThreshold = 20.0;
 
-  shakeEventListener(){
-  }
+  shakeEventListener() {}
 
   startListeningShake(double detectionThreshold) {
     _detectionThreshold = detectionThreshold;
@@ -44,28 +45,28 @@ class ShakeHandler {
 
     _accelerometerStream =
         accelerometerEvents.listen((AccelerometerEvent event) {
-          index = (index == CircularBufferSize - 1) ? 0 : index + 1;
+      index = (index == CircularBufferSize - 1) ? 0 : index + 1;
 
-          var oldX = circularBuffer[index];
+      var oldX = circularBuffer[index];
 
-          if (oldX == maxX) {
-            maxX = circularBuffer.reduce(max);
-          }
-          if (oldX == minX) {
-            minX = circularBuffer.reduce(min);
-          }
+      if (oldX == maxX) {
+        maxX = circularBuffer.reduce(max);
+      }
+      if (oldX == minX) {
+        minX = circularBuffer.reduce(min);
+      }
 
-          circularBuffer[index] = event.x;
-          if (event.x < minX) minX = event.x;
-          if (event.x > maxX) maxX = event.x;
+      circularBuffer[index] = event.x;
+      if (event.x < minX) minX = event.x;
+      if (event.x > maxX) maxX = event.x;
 
-          if (maxX - minX > _detectionThreshold) {
-            shakeEventListener();
-            circularBuffer.fillRange(0, CircularBufferSize, 0.0);
-            minX = 0.0;
-            maxX = 0.0;
-          }
-        });
+      if (maxX - minX > _detectionThreshold) {
+        shakeEventListener();
+        circularBuffer.fillRange(0, CircularBufferSize, 0.0);
+        minX = 0.0;
+        maxX = 0.0;
+      }
+    });
   }
 
   void _restartListener(dynamic) {
@@ -78,11 +79,11 @@ class ShakeHandler {
     _shakeDetector.close();
     _thresholdController.close();
     if (_accelerometerStream != null) {
-      _accelerometerStream.cancel();
+      _accelerometerStream?.cancel();
       _accelerometerStream = null;
     }
     if (subscription != null) {
-      subscription.cancel();
+      subscription?.cancel();
       subscription = null;
     }
     _thresholdController = StreamController<int>();
