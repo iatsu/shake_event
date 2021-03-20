@@ -11,18 +11,22 @@ class ShakeHandler {
 
   //INPUT
   var _thresholdController = StreamController<int>();
+  // ignore: unused_element
   Sink<int> get _threshold => _thresholdController.sink;
 
   // OUTPUT
   var _shakeDetector = StreamController<bool>();
+  // ignore: unused_element
   Stream<bool> get _shakeEvent =>
       _shakeDetector.stream.transform(ThrottleStreamTransformer(
           (_) => TimerStream(true, const Duration(seconds: 2))));
 
   double _detectionThreshold = 20.0;
 
+  /// To be overriden to listen to the shake event
   shakeEventListener() {}
 
+  /// Subscribes to the shake event
   startListeningShake(double detectionThreshold) {
     _detectionThreshold = detectionThreshold;
     if (_accelerometerStream == null) {
@@ -31,6 +35,9 @@ class ShakeHandler {
     }
   }
 
+  /// Shake event listener
+  /// Calculates the shake with the given threshold (default 20) and
+  /// calls the `shakeEventListener` when successful.
   _listenForShake() {
     const CircularBufferSize = 10;
 
@@ -75,6 +82,7 @@ class ShakeHandler {
     _subscribeForReset();
   }
 
+  /// Gets rid of all the existing listeners
   void resetShakeListeners() {
     _shakeDetector.close();
     _thresholdController.close();

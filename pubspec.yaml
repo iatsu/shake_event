@@ -1,5 +1,5 @@
 name: shake_event
-description: A cross-platform shake event listener.
+description: A shake event listener for Android and iOS. You can listen to shake events and set the threshold to define how precisely you want to listen to these events.
 version: 0.0.8
 homepage: https://github.com/iatsu/shake_event
 
