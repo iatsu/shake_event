@@ -1,4 +1,4 @@
-## [0.0.6] - Null safety
+## [0.0.7] - Null safety
 
 * Null safety added
 * Packages upgraded
