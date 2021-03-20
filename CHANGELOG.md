@@ -1,4 +1,4 @@
-## [0.0.7] - Null safety
+## [0.0.8] - 20. March 2021
 
 * Null safety added
 * Packages upgraded

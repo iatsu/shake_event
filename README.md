@@ -7,7 +7,7 @@ A cross-platform shake event listener for Flutter applications.
 First, add `shake_event` as a [dependency in your pubspec.yaml file](https://flutter.io/platform-plugins/).
 ```
 dependencies:
-  shake_event: ^0.0.7
+  shake_event: ^0.0.8
 ```
 
 ### Example
@@ -16,6 +16,11 @@ import 'package:shake_event/shake_event.dart';
 
 ...
 class _MyStatefulWidgetState extends State<HomeStatefulWidget> with ShakeHandler {
+  @override
+  void initState() {
+    startListeningShake(20); //20 is the default threshold value for the shake event
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -29,10 +34,6 @@ class _MyStatefulWidgetState extends State<HomeStatefulWidget> with ShakeHandler
     return super.shakeEventListener();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    startListeningShake(20); //20 is the default threshold value for the shake event
-    ...
-  }
+  ...
 }
 ```
